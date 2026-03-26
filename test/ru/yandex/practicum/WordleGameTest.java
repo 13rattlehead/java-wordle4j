@@ -7,6 +7,7 @@ import ru.yandex.practicum.exception.NoHintException;
 
 import java.util.*;
 
+
 class WordleGameTest {
 
     private WordleDictionary dictionary;

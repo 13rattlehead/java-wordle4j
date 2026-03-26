@@ -5,6 +5,7 @@ import java.util.*;
 import ru.yandex.practicum.exception.NoHintException;
 import ru.yandex.practicum.exception.WordNotFoundException;
 
+
 public class WordleGame {
 
     private String answer;

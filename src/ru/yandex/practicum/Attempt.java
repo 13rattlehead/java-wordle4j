@@ -2,6 +2,7 @@ package ru.yandex.practicum;
 
 import java.util.Objects;
 
+
 public class Attempt {
 
     private String word;

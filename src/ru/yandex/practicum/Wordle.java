@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class Wordle {
 
     public static void main(String[] args) throws NoHintException,
