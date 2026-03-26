@@ -1,43 +1,41 @@
 package ru.yandex.practicum;
 
-import ru.yandex.practicum.exception.DictionaryFileException;
 import ru.yandex.practicum.exception.EmptyDictionaryException;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 
-/*
-этот класс содержит в себе всю рутину по работе с файлами словарей и с кодировками
-    ему нужны методы по загрузке списка слов из файла по имени файла
-    на выходе должен быть класс WordleDictionary
- */
 public class WordleDictionaryLoader {
 
-    public WordleDictionary load(String fileName) throws DictionaryFileException, EmptyDictionaryException, IOException {
+    public WordleDictionary load(String path) throws IOException, EmptyDictionaryException {
+        List<String> lines = Files.readAllLines(Path.of(path));
 
-        List<String> words = new ArrayList<>();
+        List<String> result = new ArrayList<>();
 
-        Path path = Paths.get(fileName);
-        File file = path.toFile();
-        try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
-            reader.lines();
-            words.addAll(reader.lines().map(WordleDictionaryLoader::normalize).filter(this::checkLength).toList());
-            return new WordleDictionary(words);
-        } catch (IOException e) {
-            throw new DictionaryFileException("Ошибка чтения файла", e);
+        for (String line : lines) {
+            String normalized = normalize(line);
+
+            if (checkLength(normalized)) {
+                result.add(normalized);
+            }
         }
+
+        if (result.isEmpty()) {
+            throw new EmptyDictionaryException();
+        }
+
+        return new WordleDictionary(result);
     }
 
     public static String normalize(String word) {
-        return word = word.trim().toLowerCase().replaceAll("ё", "е");
+        return word
+                .trim()
+                .toLowerCase()
+                .replace('ё', 'е');
     }
 
     public boolean checkLength(String word) {
